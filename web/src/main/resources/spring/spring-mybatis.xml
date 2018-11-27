@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<!-- common mybatis -->
+	<bean id="commonSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="commonDataSource" />
+		<property name="mapperLocations">
+			<list>  
+    			<value>classpath*:common_mybatis/*.xml</value>
+    			<value>classpath*:attachment-mybatis/*.xml</value>
+    			<value>classpath*:batch_mapper/*.xml</value>
+  			</list>  
+		</property>
+	</bean>
+	<bean id="commonSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" ref="commonSqlSessionFactory" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lianjia.commons.dict.dao,com.lianjia.commons.attachment.dao,com.lianjia.commons.batch.dao" />
+		<property name="sqlSessionFactoryBeanName" value="commonSqlSessionFactory" />
+	</bean>
+	
+	<!-- contract mybatis -->
+	<bean id="contractSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="contractDataSource" />
+		<property name="mapperLocations" value="classpath*:contract_mybatis/*.xml"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                            reasonable=false
+                        </value>
+                    </property>
+                </bean>
+                <bean class="com.lianjia.commons.log.performance.MybatisInterceptor"/>
+				<bean class="com.lianjia.hawkeye.client.mybitis.CatMybatisPlugin"/>
+            </array>
+        </property>
+	</bean>
+	<bean id="contractSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" ref="contractSqlSessionFactory" />
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lianjia.contract.dao" />
+		<property name="sqlSessionFactoryBeanName" value="contractSqlSessionFactory" />
+	</bean>
+
+	<!-- contract readonly -->
+	<bean id="contractReadonlySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="contractReadonlyDataSource" />
+		<property name="mapperLocations" value="classpath*:contract_readonly_mybatis/*.xml"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                            reasonable=false
+                        </value>
+                    </property>
+                </bean>
+                <bean class="com.lianjia.commons.log.performance.MybatisInterceptor"/>
+				<bean class="com.lianjia.hawkeye.client.mybitis.CatMybatisPlugin"/>
+            </array>
+        </property>
+	</bean>
+	<bean id="contractReadonlySqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" ref="contractReadonlySqlSessionFactory" />
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lianjia.contract.readonly.dao" />
+		<property name="sqlSessionFactoryBeanName" value="contractReadonlySqlSessionFactory" />
+	</bean>
+
+</beans>

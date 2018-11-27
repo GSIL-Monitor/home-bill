@@ -1,0 +1,16 @@
+# This file is not allowed to be formatted
+
+server:
+  port: ${server.port}
+
+logging:
+  level: INFO
+  path: /home/work/logs/oldse/upload
+  
+
+spring:
+  profiles:
+    active: dev
+  aop:
+    auto: true
+    proxy-target-class: true

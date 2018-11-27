@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- contract mysql 数据源 -->
+    <bean id="contractDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.contract.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.contract.jdbcUrl}"/>
+        <property name="user" value="${jdbc.contract.user}"/>
+        <property name="password" value="${jdbc.contract.password}"/>
+        <!-- 等待链接的超时时间 10000ms 超过10s没获取到链接抛出 sqlException -->
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/>
+        <!--中断挂起的任务 秒 -->
+        <property name="maxAdministrativeTaskTime" value="${jdbc.maxAdministrativeTaskTime}"/>
+        <property name="numHelperThreads" value="${jdbc.numHelperThreads}"/>
+        <!--连接的生存时间 秒 -->
+        <property name="maxConnectionAge" value="${jdbc.maxConnectionAge}"/>
+        <!--连接数过多时的空闲时间 必须小于maxIdleTime 用于快速释放链接 -->
+        <property name="maxIdleTimeExcessConnections" value="${jdbc.maxIdleTimeExcessConnections}"/>
+        <!--则在close的时候测试连接的有效性 -->
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}"/>
+        <!--在每次getConnection的时测试链接有效性 -->
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+        <!-- 每次开启连接数 -->
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+        <!-- 链接重试次数 -->
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+        <!-- 链接重试间隔 -->
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+    </bean>
+
+	<!-- contract readonly mysql 数据源 -->
+    <bean id="contractReadonlyDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.contract.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.contract.readonly.jdbcUrl}"/>
+        <property name="user" value="${jdbc.contract.readonly.user}"/>
+        <property name="password" value="${jdbc.contract.readonly.password}"/>
+        <!-- 等待链接的超时时间 10000ms 超过10s没获取到链接抛出 sqlException -->
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/>
+        <!--中断挂起的任务 秒 -->
+        <property name="maxAdministrativeTaskTime" value="${jdbc.maxAdministrativeTaskTime}"/>
+        <property name="numHelperThreads" value="${jdbc.numHelperThreads}"/>
+        <!--连接的生存时间 秒 -->
+        <property name="maxConnectionAge" value="${jdbc.maxConnectionAge}"/>
+        <!--连接数过多时的空闲时间 必须小于maxIdleTime 用于快速释放链接 -->
+        <property name="maxIdleTimeExcessConnections" value="${jdbc.maxIdleTimeExcessConnections}"/>
+        <!--则在close的时候测试连接的有效性 -->
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}"/>
+        <!--在每次getConnection的时测试链接有效性 -->
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+        <!-- 每次开启连接数 -->
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+        <!-- 链接重试次数 -->
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+        <!-- 链接重试间隔 -->
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+    </bean>
+
+    <!-- common mysql 数据源 -->
+    <bean id="commonDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.common.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.common.jdbcUrl}"/>
+        <property name="user" value="${jdbc.common.user}"/>
+        <property name="password" value="${jdbc.common.password}"/>
+        <!-- 等待链接的超时时间 10000ms 超过10s没获取到链接抛出 sqlException -->
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/>
+        <!--中断挂起的任务 秒 -->
+        <property name="maxAdministrativeTaskTime" value="${jdbc.maxAdministrativeTaskTime}"/>
+        <property name="numHelperThreads" value="${jdbc.numHelperThreads}"/>
+        <!--连接的生存时间 秒 -->
+        <property name="maxConnectionAge" value="${jdbc.maxConnectionAge}"/>
+        <!--连接数过多时的空闲时间 必须小于maxIdleTime 用于快速释放链接 -->
+        <property name="maxIdleTimeExcessConnections" value="${jdbc.maxIdleTimeExcessConnections}"/>
+        <!--则在close的时候测试连接的有效性 -->
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}"/>
+        <!--在每次getConnection的时测试链接有效性 -->
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+        <!-- 每次开启连接数 -->
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+        <!-- 链接重试次数 -->
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+        <!-- 链接重试间隔 -->
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="contractTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="contractDataSource"/>
+    </bean>
+    <bean id="commonTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="commonDataSource"/>
+    </bean>
+
+    <!-- 使用annotation定义事务 -->
+    <tx:annotation-driven transaction-manager="contractTransactionManager" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="commonTransactionManager" proxy-target-class="true"/>
+
+</beans>

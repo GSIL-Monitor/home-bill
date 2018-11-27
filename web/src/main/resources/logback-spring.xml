@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************** -->
+<!-- ************** -->
+<!-- 禁止对此文件格式化显示 -->
+<!-- ************** -->
+<!-- ************** -->
+<configuration>
+	<springProperty scope="context" name="logLevel" source="logging.level" />
+	<springProperty scope="context" name="logPath" source="logging.path" />
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="logfile"
+		class="ch.qos.logback.core.FileAppender">
+		<File>${logPath}/uploadS3all.log</File>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_CUSTOM" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <!-- discriminator 的默认实现类 ch.qos.logback.classic.sift.MDCBasedDiscriminator -->
+		<discriminator>
+			<key>logName</key>
+			<defaultValue>thread.default</defaultValue>
+		</discriminator>
+		<sift>
+            <!-- 标准的文件输出 Appender, 文件名根据 MDC 动态生成  -->
+			<appender name="FILE-${logName}"
+				class="ch.qos.logback.core.FileAppender">
+				<file>${logPath}/${logName}.log</file>
+				<encoder charset="UTF-8">
+					<pattern>%msg%n</pattern>
+				</encoder>
+			</appender>
+		</sift>
+	</appender>
+	
+	<logger name="com.lianjia.oldse.logic.impl.UploadLogicImpl" level="INFO" additivity="false">
+		<appender-ref ref="console" />
+		<appender-ref ref="FILE_CUSTOM" />
+	</logger>
+
+	<root level="${logLevel}">
+		<appender-ref ref="console" />
+		<appender-ref ref="logfile" />
+	</root>
+</configuration>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			http://www.springframework.org/schema/context  
+           	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			">
+
+
+	<!--自动扫描注解类 -->
+	<context:annotation-config />
+
+	<!--排除 controller 相关注解 -->
+	<context:component-scan base-package="com.hb">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+		<context:exclude-filter type="regex" expression="com.lianjia.commons.redislock.*" />
+	</context:component-scan>
+
+    <!-- Mapper监控拦截器
+    <bean id="daoInterceptor" class="com.lianjia.fn.mybatis.encrypt.DaoEncryptAspect">
+        <constructor-arg ref="myEncryptResolver"/>
+    </bean> -->
+    <!-- 根据Name匹配拦截器
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames">
+            <list>
+                <value>*Mapper</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>daoInterceptor</value>
+            </list>
+        </property>
+    </bean> -->
+</beans>
